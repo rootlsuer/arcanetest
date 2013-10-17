@@ -1,0 +1,13 @@
+--IF YOU ARE VIEWING THIS FILE IN A WEB BROWSER
+
+
+--OPEN PQR, OPEN "ROTATION EDITOR", SELECT "DOWNLOAD PROFILE FROM URL"
+
+
+--AND PASTE THE URL FOR THIS WEBPAGE THERE.
+
+--ALL FILES BELOW WILL AUTOMATICALLY BE DOWNLOADED AND INSTALLED FOR YOU.
+
+https://raw.github.com/rootlsuer/arcanetest/master/Profiles/MAGE/Hysteria%20%5BArcane%20PvE%5D_MAGE_Rotations.xml
+https://raw.github.com/rootlsuer/arcanetest/master/Profiles/MAGE/Hysteria%20%5BArcane%20PvE%5D_MAGE_Abilities.xml
+https://raw.github.com/rootlsuer/arcanetest/master/Data/PQR_Hysteria_Data.lua
