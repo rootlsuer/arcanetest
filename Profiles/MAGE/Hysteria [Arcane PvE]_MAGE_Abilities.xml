@@ -637,8 +637,14 @@ if not IsPlayerSpell(PQ_Barrage) then return false end
 if not PQR_SpellAvailable(PQ_Barrage) then return false end
 
 if UnitBuffID(&amp;quot;player&amp;quot;,PQ_ATB) then
-	if TargetValidation(&amp;quot;target&amp;quot;,PQ_Barrage) then
-		CastSpellByName(GetSpellInfo(PQ_Barrage),&amp;quot;target&amp;quot;) return true
+	local buffTime = select(&amp;quot;7&amp;quot;, UnitBuffID(&amp;quot;player&amp;quot;,PQ_ATB))
+	if buffTime then
+		local buffRemains = buffTime - GetTime()
+		if buffRemains &amp;gt; 1.4 then
+			if TargetValidation(&amp;quot;target&amp;quot;,PQ_Barrage) then
+				CastSpellByName(GetSpellInfo(PQ_Barrage),&amp;quot;target&amp;quot;) return true
+			end
+		end
 	end
 end</Lua><RecastDelay>300</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[Support] Use Mana Gem</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>local regularGem = 36799
 local glyphedGem = 81901
