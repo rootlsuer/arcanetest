@@ -554,7 +554,6 @@ end
 -- Are we saving this cooldown?
 if SCD then return false end
 
-
 if (not UnitAffectingCombat(&amp;quot;player&amp;quot;) and UnitExists(&amp;quot;boss1&amp;quot;))
 	or not UnitAffectingCombat(&amp;quot;player&amp;quot;)
 then return false end
@@ -637,6 +636,7 @@ if UnitBuffID(&amp;quot;player&amp;quot;,PQ_ATB) then
 		local buffRemains = buffTime - GetTime()
 		if buffRemains &amp;gt; 1.4 then
 			if TargetValidation(&amp;quot;target&amp;quot;,PQ_Barrage) then
+				PQR_WriteToChat(&amp;quot;|cff9482C9Alter Time: Arcane Barrage Cast!|cffffffff&amp;quot;,&amp;quot;Warning&amp;quot;)
 				CastSpellByName(GetSpellInfo(PQ_Barrage),&amp;quot;target&amp;quot;) return true
 			end
 		end
