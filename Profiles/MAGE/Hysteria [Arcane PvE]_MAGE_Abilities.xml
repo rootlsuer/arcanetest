@@ -565,6 +565,11 @@ end
 -- Are we saving this cooldown?
 if SCD then return false end
 
+
+if (not UnitAffectingCombat(&amp;quot;player&amp;quot;) and UnitExists(&amp;quot;boss1&amp;quot;))
+	or not UnitAffectingCombat(&amp;quot;player&amp;quot;)
+then return false end
+
 CastSpellByName(GetSpellInfo(PQ_POM),&amp;quot;player&amp;quot;) return true</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>Arcane Blast</Name><Default>false</Default><SpellID>30451</SpellID><Actions></Actions><Lua>local PQ_Blast = PQ_Blast
 local TargetValidation = TargetValidation
 
