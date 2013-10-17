@@ -939,11 +939,10 @@ local PQ_CoC = PQ_CoC
 
 if not PQR_SpellAvailable(PQ_CoC) then return false end
 
-if UnitExists(&amp;quot;target&amp;quot;) then
+if PQR_UnitDistance(&amp;quot;player&amp;quot;, &amp;quot;target&amp;quot;) then
 	if PQR_UnitDistance(&amp;quot;player&amp;quot;, &amp;quot;target&amp;quot;) &amp;lt; 13 then return false end
+	if not PQR_UnitFacing(&amp;quot;player&amp;quot;, &amp;quot;target&amp;quot;) then return false end
 end
-
-if not PQR_UnitFacing(&amp;quot;player&amp;quot;, &amp;quot;target&amp;quot;) then return false end
 
 if PQI_MentallyOffensiveSettings_AOEMode_enable
 	and PQI:IsHotkeys(PQI_MentallyOffensiveSettings_AOEMode_key)
