@@ -479,7 +479,7 @@ if not IsPlayerSpell(PQ_Barrage) then return false end
 -- Blast locked?!
 if not PQR_SpellAvailable(PQ_Barrage) then return false end
 
-if PQ_GetDebuffStacks(PQ_ACD) &amp;gt;= 4 and mana &amp;lt; 95 then
+if PQ_GetDebuffStacks(PQ_ACD) &amp;gt;= 4 and mana &amp;lt; 92 then
 	if TargetValidation(&amp;quot;target&amp;quot;,PQ_Barrage) then
 		CastSpellByName(GetSpellInfo(PQ_Barrage),&amp;quot;target&amp;quot;) return true
 	end
