@@ -1062,6 +1062,7 @@ local PQ_Blast = PQ_Blast
 local MICD = spellCooldown(PQ_MI)
 local TargetValidation = TargetValidation
 local Gloves = GetInventoryItemID(&amp;quot;player&amp;quot;, 10)
+local ATCD = spellCooldown(PQ_AT)
 
 -- If we don&amp;apos;t know Engineering. Don&amp;apos;t activate.
 for i=1,9 do
@@ -1077,7 +1078,10 @@ if not IsEquippedItem(Gloves) then return false end
 -- Don&amp;apos;t use it if it&amp;apos;s on cooldown as well!
 if GetItemCooldown(Gloves) &amp;gt; 0 then return false end
 
-if spellCooldown(PQ_AT) &amp;gt; 45 or (IsPlayerSpell(PQ_Invo) and PQ_GetInvoLeft() &amp;lt; 20) then return false end
+if (ATCD &amp;gt; 10 and ATCD &amp;lt; 55) or
+    (IsPlayerSpell(PQ_Invo) and PQ_GetInvoLeft() &amp;lt; 20) or
+    (ATCD &amp;lt;= 10 and not UnitBuffID(&amp;quot;player&amp;quot;,PQ_AP))
+	then return false end
 
 if PQR_SpellAvailable(PQ_MI) or MICD &amp;lt; 40 then return false end
 
