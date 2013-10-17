@@ -647,6 +647,9 @@ local v = PQI_MentallyDefensiveSettings_ManaGem_value or 80
 -- Disabled in PQI
 if not PQI_MentallyDefensiveSettings_ManaGem_enable then return false end
 
+-- Do not use during Alter Time
+if UnitBuffID(&amp;quot;player&amp;quot;, PQ_ATB) then return false end
+
 -- Glyphed Mana Gem; Returns more mana, use if available!
 if GetItemCount(glyphedGem,nil,true) &amp;gt;= 1 and GetItemCooldown(glyphedGem) == 0 and mana &amp;lt; v
 	then UseItemByName(glyphedGem) return true end
@@ -1164,7 +1167,7 @@ if not PQI_MentallyOffensiveSettings_AutoArcanePower_enable then return false en
 if TargetValidation(&amp;quot;target&amp;quot;,PQ_Blast) and not SCD then
 	mentalMessage:message(&amp;quot;\124cFFAADD00Casting: Arcane Power&amp;quot;)
 	CastSpellByName(&amp;quot;Arcane Power&amp;quot;,&amp;quot;player&amp;quot;) return true
-end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[AOE] Arcane Barrage</Name><Default>false</Default><SpellID>44425</SpellID><Actions></Actions><Lua>-- Barrage
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[AOE] Arcane Barrage</Name><Default>false</Default><SpellID>44425</SpellID><Actions></Actions><Lua>-- Barrage (AOE)
 local PQ_ATB = PQ_ATB
 local PQ_ACD = PQ_ACD
 local PQ_Barrage = PQ_Barrage
