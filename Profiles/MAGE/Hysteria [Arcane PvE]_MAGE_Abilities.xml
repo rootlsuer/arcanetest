@@ -1164,4 +1164,29 @@ if not PQI_MentallyOffensiveSettings_AutoArcanePower_enable then return false en
 if TargetValidation(&amp;quot;target&amp;quot;,PQ_Blast) and not SCD then
 	mentalMessage:message(&amp;quot;\124cFFAADD00Casting: Arcane Power&amp;quot;)
 	CastSpellByName(&amp;quot;Arcane Power&amp;quot;,&amp;quot;player&amp;quot;) return true
-end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability></MAGE>
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[AOE] Arcane Barrage</Name><Default>false</Default><SpellID>44425</SpellID><Actions></Actions><Lua>-- Barrage
+local PQ_ATB = PQ_ATB
+local PQ_ACD = PQ_ACD
+local PQ_Barrage = PQ_Barrage
+local spellCooldown = spellCooldown
+local TargetValidation = TargetValidation
+local mana = select(3,Hysteria_UnitInfo(&amp;quot;player&amp;quot;))
+
+-- Not yet learned
+if not IsPlayerSpell(PQ_Barrage) then return false end
+
+-- Blast locked?!
+if not PQR_SpellAvailable(PQ_Barrage) then return false end
+
+if PQI_MentallyOffensiveSettings_AOEMode_enable
+	and PQI:IsHotkeys(PQI_MentallyOffensiveSettings_AOEMode_key)
+	and not GetCurrentKeyBoardFocus()
+then
+	SpellCancelQueuedSpell()
+	if SpellIsTargeting() then SpellCancelQueuedSpell() CameraOrSelectOrMoveStart() CameraOrSelectOrMoveStop() end
+	if PQ_GetDebuffStacks(PQ_ACD) &amp;gt;= 4 then
+		if TargetValidation(&amp;quot;target&amp;quot;,PQ_Barrage) then
+			CastSpellByName(GetSpellInfo(PQ_Barrage),&amp;quot;target&amp;quot;) return true
+		end
+	end
+end</Lua><RecastDelay>300</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability></MAGE>
