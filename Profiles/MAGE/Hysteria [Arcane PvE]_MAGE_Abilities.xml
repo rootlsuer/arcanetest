@@ -1074,7 +1074,7 @@ if not IsEquippedItem(Gloves) then return false end
 -- Don&amp;apos;t use it if it&amp;apos;s on cooldown as well!
 if GetItemCooldown(Gloves) &amp;gt; 0 then return false end
 
-if spellCooldown(PQ_AT) &amp;gt; 45 or PQ_GetInvoLeft() &amp;lt; 20 then return false end
+if spellCooldown(PQ_AT) &amp;gt; 45 or (IsPlayerSpell(PQ_Invo) and PQ_GetInvoLeft() &amp;lt; 20) then return false end
 
 if PQR_SpellAvailable(PQ_MI) or MICD &amp;lt; 40 then return false end
 
