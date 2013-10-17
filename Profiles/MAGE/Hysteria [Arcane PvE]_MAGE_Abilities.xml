@@ -386,7 +386,8 @@ for i=1,#PQ_Lifeblood do
 		end
 	end
 end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>[Support] Racials</Name><Default>false</Default><SpellID>0</SpellID><Actions></Actions><Lua>local T2D = T2D
-local PQ_IV = PQ_IV
+local PQ_ATB = PQ_ATB
+local PQ_AP = PQ_AP
 local SpecialUnit = SpecialUnit
 local spec = GetSpecialization()
 local Hysteria_UnitInfo = Hysteria_UnitInfo
@@ -411,7 +412,8 @@ if IsPlayerSpell(26297) and not SCD then
 			end
 		else
 			if SpecialUnit() then
-				if spec == 3 and (UnitBuffID(&amp;quot;player&amp;quot;,PQ_IV) or T2D(&amp;quot;target&amp;quot;) &amp;lt; 18) then
+				if spec == 1 and not UnitBuffID(PQ_ATB)
+				  and (UnitBuffID(&amp;quot;player&amp;quot;,PQ_AP) or T2D(&amp;quot;target&amp;quot;) &amp;lt; 18) then
 					SpellCancelQueuedSpell()
 					CastSpellByName(GetSpellInfo(26297),&amp;quot;player&amp;quot;)
 					return true
