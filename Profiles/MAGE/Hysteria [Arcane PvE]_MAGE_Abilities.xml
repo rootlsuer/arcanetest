@@ -1061,6 +1061,8 @@ end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False
 local PQ_AT = PQ_AT
 local PQ_MI = PQ_MI
 local PQ_Blast = PQ_Blast
+local T2D = T2D
+local SpecialUnit = SpecialUnit
 local MICD = spellCooldown(PQ_MI)
 local TargetValidation = TargetValidation
 local Gloves = GetInventoryItemID(&amp;quot;player&amp;quot;, 10)
@@ -1082,7 +1084,8 @@ if GetItemCooldown(Gloves) &amp;gt; 0 then return false end
 
 if (ATCD &amp;gt; 10 and ATCD &amp;lt; 55) or
     (IsPlayerSpell(PQ_Invo) and PQ_GetInvoLeft() &amp;lt; 20) or
-    (ATCD &amp;lt;= 10 and not UnitBuffID(&amp;quot;player&amp;quot;,PQ_AP))
+    (ATCD &amp;lt;= 10 and not UnitBuffID(&amp;quot;player&amp;quot;,PQ_AP)) or
+    (SpecialUnit() and T2D(&amp;quot;target&amp;quot;)&amp;lt;25)
 	then return false end
 
 if PQR_SpellAvailable(PQ_MI) or MICD &amp;lt; 40 then return false end
@@ -1165,7 +1168,7 @@ if PQI_MentallyOffensiveSettings_BossCooldown_enable then
 end
 
 if (PQ_GetBuffStacks(PQ_AMB)&amp;lt;2 or PQ_GetDebuffStacks(PQ_ACD)&amp;gt;3)
-  and T2D(&amp;quot;target&amp;quot;)&amp;gt;30 then return false end
+  and (SpecialUnit() and T2D(&amp;quot;target&amp;quot;)&amp;gt;30) then return false end
 
 -- Automatic usage disabled in PQI
 if not PQI_MentallyOffensiveSettings_AutoArcanePower_enable then return false end
