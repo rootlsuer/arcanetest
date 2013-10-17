@@ -1212,4 +1212,34 @@ then
 			CastSpellByName(GetSpellInfo(PQ_Barrage),&amp;quot;target&amp;quot;) return true
 		end
 	end
-end</Lua><RecastDelay>300</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability></MAGE>
+end</Lua><RecastDelay>300</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>Arcane Blast (Tier)</Name><Default>false</Default><SpellID>30451</SpellID><Actions></Actions><Lua>-- Blast (Tier)
+local PQ_Blast = PQ_Blast
+local TargetValidation = TargetValidation
+local mana = select(3,Hysteria_UnitInfo(&amp;quot;player&amp;quot;))
+
+-- Somehow on a CD?
+if not PQR_SpellAvailable(PQ_Frostbolt) then return false end
+
+-- Ice Floes support
+if PQI_MentallyOffensiveSettings_AutoIceFloes_enable and PQR_IsMoving(0.1) then
+	if PQR_SpellAvailable(108839) and IsPlayerSpell(108839) then
+		CastSpellByName(GetSpellInfo(108839),&amp;quot;player&amp;quot;)
+		if TargetValidation(&amp;quot;target&amp;quot;,PQ_Blast) then
+			CastSpellByName(GetSpellInfo(PQ_Blast),&amp;quot;target&amp;quot;) return true
+		end
+	end
+end
+
+-- Bad bad movement...
+if PQR_IsMoving(0.1) then return false end
+
+-- Blast locked?!
+if not PQR_SpellAvailable(PQ_Barrage) then return false end
+
+if UnitBuffID(&amp;quot;player&amp;quot;,145252) and
+  PQ_GetDebuffStacks(PQ_ACD) &amp;gt; 3 and
+  mana &amp;gt; 93 then
+	if TargetValidation(&amp;quot;target&amp;quot;,PQ_Blast) then
+		CastSpellByName(GetSpellInfo(PQ_Blast),&amp;quot;target&amp;quot;) return true
+	end
+end</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability></MAGE>
