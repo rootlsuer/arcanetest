@@ -634,7 +634,7 @@ if UnitBuffID(&amp;quot;player&amp;quot;,PQ_ATB) then
 	local buffTime = select(&amp;quot;7&amp;quot;, UnitBuffID(&amp;quot;player&amp;quot;,PQ_ATB))
 	if buffTime then
 		local buffRemains = buffTime - GetTime()
-		if buffRemains &amp;gt; 1.4 then
+		if buffRemains &amp;lt; 1.4 then
 			if TargetValidation(&amp;quot;target&amp;quot;,PQ_Barrage) then
 				--PQR_WriteToChat(&amp;quot;|cff9482C9Alter Time: Arcane Barrage Cast!|cffffffff&amp;quot;,&amp;quot;Warning&amp;quot;)
 				CastSpellByName(GetSpellInfo(PQ_Barrage),&amp;quot;target&amp;quot;) return true
