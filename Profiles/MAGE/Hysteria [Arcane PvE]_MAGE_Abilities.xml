@@ -27,7 +27,7 @@ if PQR_RotationStarted then
 
 	-- Load Data Files
 	if PQR_LoadLua ~= nil then
-		if PQR_LoadLua(&amp;quot;PQR_Hysteria_Data.lua&amp;quot;) == false then
+		if PQR_LoadLua(&amp;quot;PQR_Skitzo_Data.lua&amp;quot;) == false then
 			PQR_WriteToChat(&amp;quot;|cffb73737PQR_Hysteria_Data.lua failed to load. Make sure it&amp;apos;s in your Data folder!|cffffffff&amp;quot;, &amp;quot;Error&amp;quot;)
 			PQR_StopRotation()
 			return true
@@ -557,7 +557,7 @@ local PQ_Blast = PQ_Blast
 local TargetValidation = TargetValidation
 
 -- Somehow on a CD?
-if not PQR_SpellAvailable(PQ_Frostbolt) then return false end
+if not PQR_SpellAvailable(PQ_Blast) then return false end
 
 -- Ice Floes support
 if PQI_MentallyOffensiveSettings_AutoIceFloes_enable and PQR_IsMoving(0.1) then
@@ -570,7 +570,7 @@ if PQI_MentallyOffensiveSettings_AutoIceFloes_enable and PQR_IsMoving(0.1) then
 end
 
 -- Bad bad movement...
-if PQR_IsMoving(0.1) then return false end
+if PQR_IsMoving(0.1) and not UnitBuffID(&amp;quot;player&amp;quot;, 108839) then return false end
 
 if TargetValidation(&amp;quot;target&amp;quot;,PQ_Blast) then
 	CastSpellByName(GetSpellInfo(PQ_Blast),&amp;quot;target&amp;quot;) return true
@@ -1233,7 +1233,7 @@ if PQI_MentallyOffensiveSettings_AutoIceFloes_enable and PQR_IsMoving(0.1) then
 end
 
 -- Bad bad movement...
-if PQR_IsMoving(0.1) then return false end
+if PQR_IsMoving(0.1) and not UnitBuffID(&amp;quot;player&amp;quot;, 108839) then return false end
 
 -- Blast locked?!
 if not PQR_SpellAvailable(PQ_Blast) then return false end
