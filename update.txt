@@ -10,4 +10,4 @@
 
 https://raw.github.com/rootlsuer/arcanetest/master/Profiles/MAGE/Hysteria%20%5BArcane%20PvE%5D_MAGE_Rotations.xml
 https://raw.github.com/rootlsuer/arcanetest/master/Profiles/MAGE/Hysteria%20%5BArcane%20PvE%5D_MAGE_Abilities.xml
-https://raw.github.com/rootlsuer/arcanetest/master/Data/PQR_Hysteria_Data.lua
+https://raw.github.com/rootlsuer/arcanetest/master/Data/PQR_Skitzo_Data.lua

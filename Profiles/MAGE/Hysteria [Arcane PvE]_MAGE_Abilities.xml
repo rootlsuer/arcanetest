@@ -56,6 +56,10 @@ PQR_ResetMovementTime = 0.3
 PQR_SpellAvailableTime = ((select(3,GetNetStats()) + select(4,GetNetStats())) / 1000)
 
 
+-- QueueSys
+if not Queue_Spell then
+	Queue_Spell = { }	
+end	
 
 -- Slash Command Queue
 SLASH_ECAST1 = &amp;quot;/ecast&amp;quot;
@@ -91,16 +95,8 @@ if not UnitAffectingCombat(&amp;quot;player&amp;quot;) and #dotTracker &amp;gt; 
 	dotTracker = {}
 end
 
--- Invoker&amp;apos;s Energy is a tough nut to crack
-if invokeTimer then
-	if GetTime() - invokeTimer &amp;gt; 0.5 then
-		if not UnitChannelInfo(&amp;quot;player&amp;quot;) and (not UnitBuffID(&amp;quot;player&amp;quot;,PQ_Invo) or
-			(UnitBuffID(&amp;quot;player&amp;quot;,PQ_Invo) and select(7,UnitBuffID(&amp;quot;player&amp;quot;,PQ_Invo)) &amp;lt; 10)) then
-				mentalMessage:message(&amp;quot;\124cFFAADD00 Evocation interrupted.  Invoker&amp;apos;s Energy not updated.&amp;quot;)
-				stopRotation = false
-				invokeTimer = false
-		end
-	end		
+if not UnitAffectingCombat(&amp;quot;player&amp;quot;) and #Queue_Spell &amp;gt; 0 then
+	Queue_Spell = {}
 end
 
 -- We want to pause the entire profile when we&amp;apos;re doing certain things..
@@ -219,13 +215,11 @@ end
 if Queue_Spell then
 	if #Queue_Spell &amp;gt; 0 then
 		if GetTime() - Queue_Spell[1].Time &amp;gt;= 1.5 then
-			--PQR_WriteToChat(&amp;quot;Removed expired queue &amp;quot;..Queue_Spell[1].SpellID)
 			Queue_Spell = { }
 			return true
 		end			
 		if #Queue_Spell &amp;gt; 1 then
 			if Queue_Spell[1].SpellID == Queue_Spell[2].SpellID and Queue_Spell[1].Unit == Queue_Spell[2].Unit then
-				--PQR_WriteToChat(&amp;quot;Removed dup queue &amp;quot;..Queue_Spell[1].SpellID)
 				table.remove(Queue_Spell,2)
 				return true	
 			end
@@ -236,9 +230,9 @@ if Queue_Spell then
 			qunit = Queue_Spell[1].Unit
 		end
 		if PQR_SpellAvailable(tonumber(Queue_Spell[1].SpellID)) 
-		and ((select(2,GetSpellCooldown(tonumber(Queue_Spell[1].SpellID))) &amp;lt; 2
+		and ((select(2,GetSpellCooldown(GetSpellInfo(tonumber(Queue_Spell[1].SpellID)))) &amp;lt; 2
 		and Queue_Spell[1].SpellID ~= 51886)
-		or (select(2,GetSpellCooldown(tonumber(dispelid2))) &amp;lt; 2
+		or (select(2,GetSpellCooldown(GetSpellInfo(tonumber(dispelid2)))) &amp;lt; 2
 		and Queue_Spell[1].SpellID == 51886))
 		and UnitExists(qunit)
 		then
@@ -618,7 +612,7 @@ if not UnitBuffID(&amp;quot;player&amp;quot;,PQ_AP) then return false end
 if not PQI_MentallyOffensiveSettings_AutoAlterTime_enable then return false end
 
 mentalMessage:message(&amp;quot;\124cFFAADD00Casting: Alter Time&amp;quot;)
-CastSpellByName(GetSpellInfo(PQ_AT),&amp;quot;player&amp;quot;) return true</Lua><RecastDelay>0</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>Arcane Barrage (Alter Time)</Name><Default>false</Default><SpellID>44425</SpellID><Actions></Actions><Lua>--Arcane Barrage (AT)
+CastSpellByName(GetSpellInfo(PQ_AT),&amp;quot;player&amp;quot;) return true</Lua><RecastDelay>200</RecastDelay><Target>Target</Target><CancelChannel>False</CancelChannel><SkipUnknown>True</SkipUnknown></Ability><Ability><Name>Arcane Barrage (Alter Time)</Name><Default>false</Default><SpellID>44425</SpellID><Actions></Actions><Lua>--Arcane Barrage (AT)
 local PQ_ATB = PQ_ATB
 local PQ_Barrage = PQ_Barrage
 local spellCooldown = spellCooldown
@@ -733,10 +727,10 @@ if IsPlayerSpell(PQ_NT) then
 	
 	if NT then
 		if NT - GetTime() &amp;lt; 2 or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,122,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,33395,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,39965,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,44572,&amp;quot;PLAYER&amp;quot;)) then 
+			select(7,UnitDebuffID(&amp;quot;focus&amp;quot;,122,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(&amp;quot;focus&amp;quot;,33395,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(&amp;quot;focus&amp;quot;,39965,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(&amp;quot;focus&amp;quot;,44572,&amp;quot;PLAYER&amp;quot;)) then 
 			if TargetValidation(&amp;quot;focus&amp;quot;,PQ_NT) then CastSpellByName(GetSpellInfo(PQ_NT),&amp;quot;focus&amp;quot;) return true end
 		end
 	else
@@ -780,10 +774,10 @@ if IsPlayerSpell(PQ_NT) then
 	
 	if NT then
 		if NT - GetTime() &amp;lt; 2 or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,122,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,33395,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,39965,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,44572,&amp;quot;PLAYER&amp;quot;)) then 
+			select(7,UnitDebuffID(&amp;quot;mouseover&amp;quot;,122,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(&amp;quot;mouseover&amp;quot;,33395,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(&amp;quot;mouseover&amp;quot;,39965,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(&amp;quot;mouseover&amp;quot;,44572,&amp;quot;PLAYER&amp;quot;)) then 
 			if TargetValidation(&amp;quot;mouseover&amp;quot;,PQ_NT) then CastSpellByName(GetSpellInfo(PQ_NT),&amp;quot;mouseover&amp;quot;) return true end
 		end
 	else
@@ -835,10 +829,10 @@ for i=1,4 do
 		
 		if NT then
 			if NT - GetTime() &amp;lt; 2 or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,122,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,33395,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,39965,&amp;quot;PLAYER&amp;quot;)) or
-			select(7,UnitDebuffID(&amp;quot;target&amp;quot;,44572,&amp;quot;PLAYER&amp;quot;)) then 
+			select(7,UnitDebuffID(bossUnit,122,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(bossUnit,33395,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(bossUnit,39965,&amp;quot;PLAYER&amp;quot;)) or
+			select(7,UnitDebuffID(bossUnit,44572,&amp;quot;PLAYER&amp;quot;)) then 
 				if TargetValidation(bossUnit,PQ_NT) then CastSpellByName(GetSpellInfo(PQ_NT),bossUnit) return true end
 			end
 		else
@@ -1003,7 +997,7 @@ if IsPlayerSpell(PQ_Invo) then
 	
 	if not UnitAffectingCombat(&amp;quot;player&amp;quot;) then return false end
 	
-	if PQ_GetIVCooldown() == 0 and mana &amp;lt; 50 then
+	if mana &amp;lt; 50 then
 		CastSpellByName(GetSpellInfo(PQ_Evo),&amp;quot;player&amp;quot;)
 		return true
 	end
@@ -1226,7 +1220,7 @@ local TargetValidation = TargetValidation
 local mana = select(3,Hysteria_UnitInfo(&amp;quot;player&amp;quot;))
 
 -- Somehow on a CD?
-if not PQR_SpellAvailable(PQ_Frostbolt) then return false end
+if not PQR_SpellAvailable(PQ_Blast) then return false end
 
 -- Ice Floes support
 if PQI_MentallyOffensiveSettings_AutoIceFloes_enable and PQR_IsMoving(0.1) then
@@ -1242,7 +1236,7 @@ end
 if PQR_IsMoving(0.1) then return false end
 
 -- Blast locked?!
-if not PQR_SpellAvailable(PQ_Barrage) then return false end
+if not PQR_SpellAvailable(PQ_Blast) then return false end
 
 if UnitBuffID(&amp;quot;player&amp;quot;,145252) and
   PQ_GetDebuffStacks(PQ_ACD) &amp;gt; 3 and
